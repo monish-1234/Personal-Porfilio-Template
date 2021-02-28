@@ -1,0 +1,118 @@
+<!--
+
+    This is very specific for my use case. 
+    Remove this file is this doesn't suit your needs
+
+
+
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Verifying Availability......</title>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+
+    </head>
+    <body>
+        <div class="container col-md-7 mt-5">
+            <h2 id="verify">Verifying Website Availability</h2>
+            <img id="gif" src="assets/gif/waiting.gif" style="width: 30% ;" alt="loading"><br><br>
+            Sometimes when a customer cancels their payment or upgrades their domain, the existing website becomes unavailable.
+            <br><br>
+            If the website is unavailable, this page will automatically redirect you to a cached version<br><br>
+            <h3>Click <a id="link" href="#">here</a>, to manually redirect to cached website</h3>
+        </div>
+        
+    <script>
+        function isSiteOnline(url,callback) {
+         // try to load favicon
+        var timer = setTimeout(function(){
+        // timeout after 5 seconds
+            callback(false);
+        },5000)
+
+    var img = document.createElement("img");
+    img.onload = function() {
+        clearTimeout(timer);
+        callback(true);
+    }
+
+    img.onerror = function() {
+        clearTimeout(timer);
+        callback(false);
+    }
+
+    img.src = url+"/favicon.png";
+}
+
+document.getElementById('verify').append(".");
+
+const queryString = window.location.search;
+console.log(queryString);
+const urlParams = new URLSearchParams(queryString);
+var product = urlParams.get('id');
+console.log(product);
+isSiteOnline("http://"+product,function(found){
+    if(found) {
+        
+        function demo() {
+        document.getElementById('verify').append(".");
+        }
+        document.getElementById("link").href="https://yourcachewebsite.in/cached/"+product;
+        setTimeout(demo, 1000);
+        setTimeout(demo, 2000);
+        setTimeout(demo, 3000);
+
+        function update(){
+        document.getElementById('verify').innerHTML="Website Available ! Redirecting in 3..";
+        document.getElementById('gif').src="assets/gif/excited.gif";
+        document.getElementById('gif').style="width=40%";
+        setTimeout(redirt,2000)
+        }
+        setTimeout(update, 3000);
+        function redirt(){
+            document.getElementById('verify').innerHTML="Website Available ! Redirecting in 3..2";
+            setTimeout(redirt1,1000)
+
+        }
+        function redirt1(){
+            document.getElementById('verify').innerHTML="Website Available ! Redirecting in 3..2..1";
+            window.location.href = "http://"+product;
+
+        }
+    }
+    else {
+                
+        function demo() {
+        document.getElementById('verify').append(".");
+        }
+        document.getElementById("link").href=product;
+        setTimeout(demo, 1000);
+        setTimeout(demo, 2000);
+        setTimeout(demo, 3000);
+
+        function update(){
+        document.getElementById('verify').innerHTML="Website Unavailable ! Redirecting to cache in 3..";
+        document.getElementById('gif').src="assets/gif/itsokay.gif";
+        document.getElementById('gif').style="width=40%";
+        setTimeout(redirt,2000)
+        }
+        setTimeout(update, 3000);
+        function redirt(){
+            document.getElementById('verify').innerHTML="Website Unavailable ! Redirecting to cache in 3..2";
+            setTimeout(redirt1,1000)
+
+        }
+        function redirt1(){
+            document.getElementById('verify').innerHTML="Website Unavailable ! Redirecting to cache in 3..2..1";
+            window.location.href = "https://yourcachewebsite.in/cached/"+product;
+
+        }
+    }
+})
+
+
+    </script>
+    </body>
+</html>
